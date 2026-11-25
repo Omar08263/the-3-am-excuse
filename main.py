@@ -14,7 +14,8 @@ ENTRY = (
     "still thinking clearly."
 )
 
-OUTPUT_PATH = Path("/output/entry.txt")
+OUTPUT_DIR = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
+OUTPUT_PATH = OUTPUT_DIR / "entry.txt"
 
 
 def gate(text: str) -> None:
@@ -39,7 +40,7 @@ def main() -> None:
     gate(written)
     if oct(OUTPUT_PATH.stat().st_mode & 0o777) != "0o644":
         raise ValueError("verification failed: mode is not 0644")
-    print(f"Wrote {OUTPUT_PATH} ({len(ENTRY)} chars)")
+    print(f"Wrote {OUTPUT_PATH} ({len(ENTRY)} chars, {len(ENTRY.encode('utf-8'))} bytes)")
 
 
 if __name__ == "__main__":
